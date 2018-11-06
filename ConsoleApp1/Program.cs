@@ -13,42 +13,29 @@ namespace ConsoleApp1
 
         static void Main(string[] args)
         {
-            string name;
-
             Console.WriteLine($"Enter Path:");
-            name = Console.ReadLine();
-            UnixName(name);
+            string name = Console.ReadLine();
+            Console.Write(UnixName(name));
         }
 
-        public static void UnixName(string name)
+       public static string UnixName(string name)
         {
-            List<string> UnixStack = new List<string>();
             char[] delimiterChars = { '/' };
             string[] words = name.Split(delimiterChars);
 
+            List<string> UnixStack = new List<string>();
             foreach (var word in words)
             {
-                //if (word == "."){}
-                if (word == "..")
+                if (word == ".." && UnixStack.Count != 0)
                 {
-                    if (UnixStack.Count != 0)
                     UnixStack.RemoveAt(UnixStack.Count - 1);
                 }
-                else
+                else if (word != ".") {
                     UnixStack.Add(word);
+                }
             }
-            PrintValues(UnixStack);
+            return string.Join("\\", UnixStack);
         }
-
-        public static void PrintValues(IEnumerable UnixPath)
-        {           
-
-            foreach (Object obj in UnixPath)
-            {
-                Console.Write("{0}\\", obj);
-            }
-        }
-
     }
 
 
